@@ -14,11 +14,10 @@
   "author": "Devin Spikowski",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^16.11.6",
+    "@types/node": "^18.11.9",
     "aocrunner": "^1.6.1",
-    "prettier": "^2.4.1"
+    "prettier": "^2.8.0"
   },
-  "dependencies": {},
   "engines": {
     "node": ">=16.13.0"
   }
