@@ -6,10 +6,11 @@ const parseInput = (rawInput: string) =>
 		.split('\n')
 		.map((v) => +v)
 
-const getCaloriesPerElf = (input: (number | '')[]) => {
+const getCaloriesPerElf = (input: number[]) => {
 	const calories = []
 	let current = 0
 	for (const line of input) {
+		// Gaps will be 0
 		if (line) {
 			current += line
 		} else {
