@@ -43,26 +43,6 @@ _Click a badge to go to the specific day._
 
 ---
 
-## Installation
-
-```
-npm i
-```
-
-## Running in dev mode
-
-```
-npm start <day>
-```
-
-Example:
-
-```
-npm start 1
-```
-
----
-
 ## Results
 
 <!--RESULTS-->
