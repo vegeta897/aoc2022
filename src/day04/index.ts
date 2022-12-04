@@ -24,12 +24,8 @@ const part2 = (rawInput: string) => {
 	const input = parseInput(rawInput)
 	return input
 		.filter(([[aStart, aEnd], [bStart, bEnd]]) => {
-			const sectors = new Set()
 			for (let ai = aStart; ai <= aEnd; ai++) {
-				sectors.add(ai)
-			}
-			for (let bi = bStart; bi <= bEnd; bi++) {
-				if (sectors.has(bi)) return true
+				if (ai >= bStart && ai <= bEnd) return true
 			}
 			return false
 		})
