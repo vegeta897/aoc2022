@@ -54,41 +54,41 @@
         "attempts": [
           "596"
         ],
-        "time": 2.4402
+        "time": 2.7094
       },
       "part2": {
         "solved": true,
         "result": "876",
         "attempts": [],
-        "time": 5.6732
+        "time": 3.3397
       }
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "RNZLFZSJH",
         "attempts": [],
-        "time": null
+        "time": 1.2802
       },
       "part2": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "CNSFCGJSM",
         "attempts": [],
-        "time": null
+        "time": 1255.0406
       }
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "1909",
         "attempts": [],
-        "time": null
+        "time": 1.7545
       },
       "part2": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "3380",
         "attempts": [],
-        "time": null
+        "time": 2.321
       }
     },
     {
