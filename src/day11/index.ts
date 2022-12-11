@@ -8,26 +8,21 @@ const parseInput = (rawInput: string) => {
 		.map((line) => {
 			const [_number, startItems, operationLine, test, testTrue, testFalse] =
 				line.split('\n')
-			const operation = operationLine.substring(19)
+			const [_, operator, value] = operationLine.match(/([+*]) (old|\d+)/)!
 			let opFn: (old: number) => number
-			if (operation === 'old * old') {
+			if (value === 'old') {
 				opFn = (old: number) => old * old
-			} else if (operation.substring(0, 5) === 'old *') {
-				opFn = (old: number) => old * +operation.substring(6)
-			} else if (operation.substring(0, 5) === 'old +') {
-				opFn = (old: number) => old + +operation.substring(6)
+			} else if (operator === '*') {
+				opFn = (old: number) => old * +value
+			} else if (operator === '+') {
+				opFn = (old: number) => old + +value
 			}
 			return {
-				items: startItems
-					.substring(18)
-					.split(', ')
-					.map((i) => +i),
+				items: [...startItems.matchAll(/(\d+)/g)].map((m) => +m[0]),
 				opFn: opFn!,
-				divisor: +test.substring('  Test: divisible by'.length),
-				trueMonkey: +testTrue.substring('    If true: throw to monkey'.length),
-				falseMonkey: +testFalse.substring(
-					'    If false: throw to monkey'.length
-				),
+				divisor: +test.match(/(\d+)/)![0],
+				trueMonkey: +testTrue.match(/(\d+)/)![0],
+				falseMonkey: +testFalse.match(/(\d+)/)![0],
 				inspectCount: 0,
 			}
 		})
