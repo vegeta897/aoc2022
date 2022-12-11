@@ -1,4 +1,5 @@
 import run from 'aocrunner'
+import * as util from '../utils/index.js'
 
 const parseInput = (rawInput: string) =>
 	rawInput
@@ -40,8 +41,8 @@ const simulateRope = (
 				const hDist = follow[0] - tails[t][0]
 				const vDist = follow[1] - tails[t][1]
 				if (Math.abs(hDist) > 1 || Math.abs(vDist) > 1) {
-					tails[t][0] += Math.max(-1, Math.min(1, hDist))
-					tails[t][1] += Math.max(-1, Math.min(1, vDist))
+					tails[t][0] += util.clamp(hDist, -1, 1)
+					tails[t][1] += util.clamp(vDist, -1, 1)
 					if (t === tails.length - 1) tailGrids.add(tails[t].join(':'))
 				}
 			}

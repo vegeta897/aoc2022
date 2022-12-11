@@ -1,10 +1,11 @@
 import run from 'aocrunner'
+import * as util from '../utils/index.js'
 
 const parseInput = (rawInput: string) =>
 	rawInput
 		.trim()
 		.split('\n')
-		.map((v) => v)
+		.map((line) => line)
 
 const part1 = (rawInput: string) => {
 	const input = parseInput(rawInput)
