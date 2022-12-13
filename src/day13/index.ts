@@ -9,7 +9,7 @@ const parseInput = (rawInput: string) =>
 			return [packet1, packet2] as [NumberOrArray, NumberOrArray]
 		})
 
-type NumberOrArray = number | number[] | NumberOrArray[]
+type NumberOrArray = number | NumberOrArray[]
 
 const compareValues = (a: NumberOrArray, b: NumberOrArray): -1 | 0 | 1 => {
 	if (!Array.isArray(a) && !Array.isArray(b)) {
