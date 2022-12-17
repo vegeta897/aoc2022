@@ -18,4 +18,4 @@ I was really amazed when one of my first results was correct. It felt awesome.
 
 Then I went back and figured out how to calculate that magic number of rocks, and did some nice refactoring. It even occurred to me that I could use a generator function to iterate over the blocks in each rock! It's been years since I've used those. There's still a duplicated segment of 11 lines, but I'm okay with it.
 
-[^1]: [Screenshot of how slow it was going](src/day17/this-aint-it.png)
+[^1]: [Screenshot of how slow it was going](day17/this-aint-it.png)
