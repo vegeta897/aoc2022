@@ -154,9 +154,9 @@ Both parts: 4127.718ms
 
 ```
 Day 16
-Time part 1: 8524.458ms
-Time part 2: 1794705.638ms
-Both parts: 1803230.097ms
+Time part 1: 35.774ms
+Time part 2: 33130.475ms
+Both parts: 33166.249ms
 ```
 
 ```
@@ -224,7 +224,7 @@ Both parts: -
 
 ```
 Total stars: 34/50
-Total time: 1810461.939ms
+Total time: 40398.091ms
 ```
 
 <!--/RESULTS-->
