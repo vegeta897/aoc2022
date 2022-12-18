@@ -58,17 +58,19 @@ const part2 = (rawInput: string) => {
 			}
 		}
 	}
-	const confirmedSpaces: Set<string> = new Set()
+	const allPocketCubes: Set<string> = new Set()
 	for (const space of [...spaceMap]) {
-		if (confirmedSpaces.has(space)) continue
+		if (allPocketCubes.has(space)) continue
 		const toCheck: Set<string> = new Set([space])
-		const checked: Set<string> = new Set()
+		const airCluster: Set<string> = new Set()
+		let clusterSurfaceArea = 0
 		let enclosed = true
 		while (enclosed && toCheck.size > 0) {
 			const [checking] = toCheck
 			const [cx, cy, cz] = xyz(checking)
-			checked.add(checking)
+			airCluster.add(checking)
 			toCheck.delete(checking)
+			clusterSurfaceArea += 6
 			for (const [nx, ny, nz] of neighbors) {
 				const [gnx, gny, gnz] = [cx + nx, cy + ny, cz + nz]
 				if (
@@ -84,23 +86,21 @@ const part2 = (rawInput: string) => {
 					break
 				}
 				const nGrid = grid(gnx, gny, gnz)
+				const cubeInCluster = airCluster.has(nGrid)
+				if (cubeInCluster) clusterSurfaceArea -= 2
 				if (
-					cubeMap.has(nGrid) ||
-					checked.has(nGrid) ||
-					confirmedSpaces.has(nGrid)
-				)
-					continue
-				toCheck.add(nGrid)
+					!cubeMap.has(nGrid) &&
+					!cubeInCluster &&
+					!allPocketCubes.has(nGrid)
+				) {
+					toCheck.add(nGrid)
+				}
 			}
 		}
 		if (enclosed) {
-			for (const space of [...checked]) {
-				confirmedSpaces.add(space)
-				const [x, y, z] = xyz(space)
-				for (const [nx, ny, nz] of neighbors) {
-					const nGrid = grid(x + nx, y + ny, z + nz)
-					if (cubeMap.has(nGrid)) surfaceArea--
-				}
+			surfaceArea -= clusterSurfaceArea
+			for (const space of [...airCluster]) {
+				allPocketCubes.add(space)
 			}
 		}
 	}
