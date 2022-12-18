@@ -8,7 +8,7 @@ const parseInput = (rawInput: string) =>
 
 const grid = (x: number, y: number, z: number) => [x, y, z].join(',')
 const xyz = (grid: string) => grid.split(',').map((v) => +v)
-const neighbors = [
+const NEIGHBORS = [
 	[1, 0, 0],
 	[-1, 0, 0],
 	[0, 1, 0],
@@ -16,6 +16,11 @@ const neighbors = [
 	[0, 0, 1],
 	[0, 0, -1],
 ]
+const neighbors = function* (x: number, y: number, z: number) {
+	for (const [nx, ny, nz] of NEIGHBORS) {
+		yield [x + nx, y + ny, z + nz]
+	}
+}
 
 const part1 = (rawInput: string) => {
 	const input = parseInput(rawInput)
@@ -24,8 +29,8 @@ const part1 = (rawInput: string) => {
 	for (const [x, y, z] of input) {
 		gridMap.add(grid(x, y, z))
 		surfaceArea += 6
-		for (const [nx, ny, nz] of neighbors) {
-			const nGrid = grid(x + nx, y + ny, z + nz)
+		for (const [nx, ny, nz] of neighbors(x, y, z)) {
+			const nGrid = grid(nx, ny, nz)
 			if (gridMap.has(nGrid)) surfaceArea -= 2
 		}
 	}
@@ -49,8 +54,8 @@ const part2 = (rawInput: string) => {
 		cubeMap.add(thisGrid)
 		spaceMap.delete(thisGrid)
 		surfaceArea += 6
-		for (const [nx, ny, nz] of neighbors) {
-			const nGrid = grid(x + nx, y + ny, z + nz)
+		for (const [nx, ny, nz] of neighbors(x, y, z)) {
+			const nGrid = grid(nx, ny, nz)
 			if (cubeMap.has(nGrid)) {
 				surfaceArea -= 2
 			} else {
@@ -67,25 +72,24 @@ const part2 = (rawInput: string) => {
 		let enclosed = true
 		while (enclosed && toCheck.size > 0) {
 			const [checking] = toCheck
-			const [cx, cy, cz] = xyz(checking)
+			const [x, y, z] = xyz(checking)
 			airCluster.add(checking)
 			toCheck.delete(checking)
 			clusterSurfaceArea += 6
-			for (const [nx, ny, nz] of neighbors) {
-				const [gnx, gny, gnz] = [cx + nx, cy + ny, cz + nz]
+			for (const [nx, ny, nz] of neighbors(x, y, z)) {
 				if (
-					gnx < bounds[0] ||
-					gnx > bounds[1] ||
-					gny < bounds[2] ||
-					gny > bounds[3] ||
-					gnz < bounds[4] ||
-					gnz > bounds[5]
+					nx < bounds[0] ||
+					nx > bounds[1] ||
+					ny < bounds[2] ||
+					ny > bounds[3] ||
+					nz < bounds[4] ||
+					nz > bounds[5]
 				) {
 					// Out of bounds
 					enclosed = false
 					break
 				}
-				const nGrid = grid(gnx, gny, gnz)
+				const nGrid = grid(nx, ny, nz)
 				const cubeInCluster = airCluster.has(nGrid)
 				if (cubeInCluster) clusterSurfaceArea -= 2
 				if (

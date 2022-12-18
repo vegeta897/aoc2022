@@ -168,9 +168,9 @@ Both parts: 158.6ms
 
 ```
 Day 18
-Time part 1: 18.359ms
-Time part 2: 147.113ms
-Both parts: 165.472ms
+Time part 1: 20.275ms
+Time part 2: 110.777ms
+Both parts: 131.052ms
 ```
 
 ```
@@ -224,7 +224,7 @@ Both parts: -
 
 ```
 Total stars: 36/50
-Total time: 40563.563ms
+Total time: 40529.143ms
 ```
 
 <!--/RESULTS-->
