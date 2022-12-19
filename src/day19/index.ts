@@ -1,5 +1,4 @@
 import run from 'aocrunner'
-import * as util from '../utils/index.js'
 
 type Resource = 'ore' | 'clay' | 'obsidian' | 'geode'
 type Costs = { ore: number; clay: number; obsidian: number }
@@ -50,7 +49,7 @@ const parseInput = (rawInput: string): Blueprint[] =>
 
 const evalCache: Map<string, [number, string]> = new Map()
 
-let MAX_MINUTES = 24 // TODO: Change to 24
+let MAX_MINUTES = 24
 
 const produce = (
 	bots: Record<Resource, number>,
@@ -178,11 +177,10 @@ const part1 = (rawInput: string) => {
 	MAX_MINUTES = 24
 	let qualitySum = 0
 	for (const blueprint of input) {
-		console.log('EVAL BLUEPRINT', blueprint.id)
 		evalCache.clear()
 		const [geodes, buildOrder] = evaluate(blueprint)
 		const quality = geodes * blueprint.id
-		console.log('EVAL FINISHED', blueprint.id, geodes, quality, buildOrder)
+		console.log('Blueprint', blueprint.id, geodes, quality, buildOrder)
 		qualitySum += quality
 	}
 	return qualitySum.toString()
@@ -193,10 +191,9 @@ const part2 = (rawInput: string) => {
 	MAX_MINUTES = 32
 	let geodeProduct = 1
 	for (const blueprint of input) {
-		console.log('EVAL BLUEPRINT', blueprint.id)
 		evalCache.clear()
 		const [geodes, buildOrder] = evaluate(blueprint)
-		console.log('EVAL FINISHED', blueprint.id, geodes, buildOrder)
+		console.log('Blueprint', blueprint.id, geodes, buildOrder)
 		geodeProduct *= geodes
 	}
 	// 112 TOO LOW!
