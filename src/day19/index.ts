@@ -47,10 +47,6 @@ const parseInput = (rawInput: string): Blueprint[] =>
 			}
 		})
 
-const evalCache: Map<string, [number, string]> = new Map()
-
-let MAX_MINUTES = 24
-
 const produce = (
 	bots: Record<Resource, number>,
 	store: Record<Resource, number>
@@ -60,6 +56,10 @@ const produce = (
 	store.obsidian += bots.obsidian
 	store.geode += bots.geode
 }
+
+const evalCache: [number, string][][] = []
+
+let MAX_MINUTES = 24
 
 const evaluate = (
 	info: Blueprint,
@@ -83,27 +83,43 @@ const evaluate = (
 		produce(bots, store)
 		return [store.geode, buildOrder]
 	}
-	// const cacheKey = minute + '#' + building + '#' + buildOrder
-	// const cached = minute < 15 && evalCache.get(cacheKey)
-	// if (cached) {
-	// 	console.log('cache grab')
-	// 	// TODO: Is cache used at all?
-	// 	return cached
-	// }
+	const cache1Index =
+		minute -
+		1 +
+		(bots.ore << 4) +
+		(bots.clay << 9) +
+		(bots.obsidian << 14) +
+		(bots.geode << 19)
+	const cache1 = evalCache[cache1Index]
+	const cache2Index =
+		store.ore + (store.clay << 8) + (store.obsidian << 16) + (store.geode << 23)
+	if (cache1) {
+		const cache2 = cache1[cache2Index]
+		if (cache2) return cache2
+	}
 	if (building) {
 		produce(bots, store)
 		bots[building as Resource]++
 		buildOrder += ' ' + building
 		const result = evaluate(info, minute + 1, store, bots, null, buildOrder)
-		// evalCache.set(cacheKey, result)
+		const newCache1Index =
+			minute -
+			1 +
+			(bots.ore << 4) +
+			(bots.clay << 9) +
+			(bots.obsidian << 14) +
+			(bots.geode << 19)
+		if (!evalCache[newCache1Index]) evalCache[newCache1Index] = []
+		evalCache[newCache1Index][cache2Index] = result
 		return result
 	}
 	let best = [0, '']
 	if (minute === MAX_MINUTES - 1 && bots.geode === 0) return [0, buildOrder]
 	if (
 		bots.ore >= info.costs.geode.ore &&
-		bots.obsidian === info.costs.geode.obsidian
+		bots.obsidian >= info.costs.geode.obsidian
 	) {
+		// Build geode bots for the rest of time
 		for (let m = minute; m <= MAX_MINUTES; m++) {
 			produce(bots, store)
 			bots.geode++
@@ -168,7 +184,8 @@ const evaluate = (
 		}
 		if (storeClone.geode > best[0]) best = [storeClone.geode, buildOrder]
 	}
-	// if (minute < 15) evalCache.set(cacheKey, best as [number, string])
+	if (!evalCache[cache1Index]) evalCache[cache1Index] = []
+	evalCache[cache1Index][cache2Index] = best as [number, string]
 	return best as [number, string]
 }
 
@@ -177,10 +194,10 @@ const part1 = (rawInput: string) => {
 	MAX_MINUTES = 24
 	let qualitySum = 0
 	for (const blueprint of input) {
-		evalCache.clear()
+		evalCache.length = 0
 		const [geodes, buildOrder] = evaluate(blueprint)
 		const quality = geodes * blueprint.id
-		console.log('Blueprint', blueprint.id, geodes, quality, buildOrder)
+		// console.log('Blueprint', blueprint.id, geodes, quality, buildOrder)
 		qualitySum += quality
 	}
 	return qualitySum.toString()
@@ -191,12 +208,11 @@ const part2 = (rawInput: string) => {
 	MAX_MINUTES = 32
 	let geodeProduct = 1
 	for (const blueprint of input) {
-		evalCache.clear()
+		evalCache.length = 0
 		const [geodes, buildOrder] = evaluate(blueprint)
-		console.log('Blueprint', blueprint.id, geodes, buildOrder)
+		// console.log('Blueprint', blueprint.id, geodes, buildOrder)
 		geodeProduct *= geodes
 	}
-	// 112 TOO LOW!
 	return geodeProduct.toString()
 }
 

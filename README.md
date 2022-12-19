@@ -175,9 +175,9 @@ Both parts: 131.052ms
 
 ```
 Day 19
-Time part 1: 836.641ms
-Time part 2: 22899.563ms
-Both parts: 23736.204ms
+Time part 1: 821.097ms
+Time part 2: 14403.628ms
+Both parts: 15224.725ms
 ```
 
 ```
@@ -224,7 +224,7 @@ Both parts: -
 
 ```
 Total stars: 38/50
-Total time: 64265.348ms
+Total time: 55753.868ms
 ```
 
 <!--/RESULTS-->
