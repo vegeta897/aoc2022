@@ -31,10 +31,10 @@ run({
 	},
 	part2: {
 		tests: [
-			{
-				input: ``,
-				expected: '',
-			},
+			// {
+			// 	input: ``,
+			// 	expected: '',
+			// },
 		],
 		solution: part2,
 	},
