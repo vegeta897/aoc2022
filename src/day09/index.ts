@@ -22,20 +22,9 @@ const simulateRope = (
 	const tailGrids = new Set(['0:0'])
 	for (const [dir, steps] of input) {
 		for (let s = 0; s < steps; s++) {
-			switch (dir) {
-				case 'L':
-					head[0]--
-					break
-				case 'R':
-					head[0]++
-					break
-				case 'U':
-					head[1]--
-					break
-				case 'D':
-					head[1]++
-					break
-			}
+			const index = dir === 'L' || dir === 'R' ? 0 : 1
+			const delta = dir === 'L' || dir === 'U' ? -1 : 1
+			head[index] += delta
 			for (let t = 0; t < tails.length; t++) {
 				const follow = t === 0 ? head : tails[t - 1]
 				const hDist = follow[0] - tails[t][0]
