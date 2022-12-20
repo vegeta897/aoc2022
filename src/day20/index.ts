@@ -15,11 +15,7 @@ const mix = (input: NumberContainer[], times = 1) => {
 			const mixedIndex = mixed.indexOf(number)
 			mixed.splice(mixedIndex, 1)
 			const newIndex = (mixedIndex + number.n) % mixed.length
-			if (newIndex === 0) {
-				mixed.push(number)
-			} else {
-				mixed.splice(newIndex, 0, number)
-			}
+			mixed.splice(newIndex, 0, number)
 		}
 	}
 	return mixed
