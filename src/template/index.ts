@@ -5,7 +5,9 @@ const parseInput = (rawInput: string) =>
 	rawInput
 		.trim()
 		.split('\n')
-		.map((line) => line)
+		.map((line) => {
+			return line
+		})
 
 const part1 = (rawInput: string) => {
 	const input = parseInput(rawInput)
