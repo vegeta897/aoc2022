@@ -8,7 +8,7 @@ Task description: [link](https://adventofcode.com/2022/day/20)
 
 ### WHAT?!
 
-![AoC 2022 Day 20, rank 82 for part 1 and 55 for part 2](day20/what.png)
+![AoC 2022 Day 20, rank 82 for part 1 and 55 for part 2](what.png)
 
 I got rank #55 **IN THE WORLD** for both parts!
 
