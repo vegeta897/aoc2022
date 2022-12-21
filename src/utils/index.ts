@@ -31,3 +31,5 @@
  */
 export const clamp = (value: number, min: number, max: number) =>
 	Math.min(Math.max(value, min), max)
+
+export const sign = (value: number) => (value >= 0 ? 1 : -1)
