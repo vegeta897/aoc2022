@@ -210,9 +210,9 @@ Both parts: 4105.579ms
 
 ```
 Day 24
-Time part 1: 2884.194ms
-Time part 2: 3516.679ms
-Both parts: 6400.873ms
+Time part 1: 961.198ms
+Time part 2: 1731.564ms
+Both parts: 2692.762ms
 ```
 
 ```
@@ -224,7 +224,7 @@ Both parts: -
 
 ```
 Total stars: 48/50
-Total time: 71956.652ms
+Total time: 68248.541ms
 ```
 
 <!--/RESULTS-->

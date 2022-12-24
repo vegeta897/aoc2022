@@ -33,3 +33,15 @@ export const clamp = (value: number, min: number, max: number) =>
 	Math.min(Math.max(value, min), max)
 
 export const sign = (value: number) => (value >= 0 ? 1 : -1)
+
+export const leastCommonMultiple = (a: number, b: number) =>
+	Math.abs(a * b) / greatestCommonDivisor(a, b)
+
+const greatestCommonDivisor = (a: number, b: number) => {
+	while (b) {
+		const bb = b
+		b = a % b
+		a = bb
+	}
+	return a
+}

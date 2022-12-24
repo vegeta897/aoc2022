@@ -1,4 +1,5 @@
 import run from 'aocrunner'
+import * as util from '../utils/index.js'
 
 type XY = [number, number]
 type DirNum = 0 | 1 | 2 | 3
@@ -21,7 +22,9 @@ const parseInput = (rawInput: string) => {
 	const bottomWallY = rows.length - 1
 	const rightWallX = rows[0].length - 1
 	rows.forEach((line, y) => {
+		if (y === 0 || y === bottomWallY) return
 		line.split('').forEach((char, x) => {
+			if (x === 0 || x === rightWallX) return
 			if (dirArrows.includes(char)) {
 				blizzards.push({ xy: [x, y], dir: dirArrows.indexOf(char) as DirNum })
 			}
@@ -43,8 +46,8 @@ const buildForecast = (
 	const forecast = []
 	const horizontalSpace = rightWallX - 1
 	const verticalSpace = bottomWallY - 1
-	const loopTime = horizontalSpace * verticalSpace
-	for (let m = 1; m < loopTime; m++) {
+	const loopTime = util.leastCommonMultiple(horizontalSpace, verticalSpace)
+	for (let m = 0; m < loopTime; m++) {
 		const blizzardGrids: Set<string> = new Set()
 		for (const blizzard of blizzards) {
 			const nextXY = addGrid(blizzard.xy, dirs[blizzard.dir])
@@ -55,7 +58,7 @@ const buildForecast = (
 			blizzard.xy = nextXY
 			blizzardGrids.add(grid(nextXY))
 		}
-		forecast[m - 1] = blizzardGrids
+		forecast[m] = blizzardGrids
 	}
 	return forecast
 }
@@ -71,8 +74,7 @@ const takeStep = (
 		forecast: Set<string>[]
 	},
 	me: XY = [1, 0],
-	minute = 1,
-	history = ''
+	minute = 1
 ) => {
 	if (minute === options.maxMins) return Infinity
 	if (minute > options.best) return Infinity
@@ -92,8 +94,6 @@ const takeStep = (
 			continue
 		const moveTo = addGrid(me, dir)
 		if (moveTo[0] === options.exit[0] && moveTo[1] === options.exit[1]) {
-			// history += ' exit'
-			if (history.length < 55) console.log(history)
 			if (minute < options.best) options.best = minute
 			return minute
 		}
@@ -102,12 +102,7 @@ const takeStep = (
 			continue
 		if (moveTo[1] < 0 || moveTo[1] > options.bottomWallY) continue
 		if (!blizzardGrids.has(grid(moveTo))) {
-			const minutes = takeStep(
-				options,
-				moveTo,
-				minute + 1,
-				history + ' ' + (dirArrows[dirsAndSelf.indexOf(dir)] || 'O')
-			)
+			const minutes = takeStep(options, moveTo, minute + 1)
 			if (minutes < localBest) localBest = minutes
 		}
 	}
@@ -147,7 +142,6 @@ const part2 = (rawInput: string) => {
 	stateCache.length = 0
 	const bestTime1 = takeStep(options)
 	if (bestTime1 === Infinity) throw 'failed on trip 1'
-	console.log('trip 1', bestTime1)
 	stateCache.length = 0
 	const bestTime2 = takeStep(
 		{
@@ -161,7 +155,6 @@ const part2 = (rawInput: string) => {
 		bestTime1 + 1
 	)
 	if (bestTime2 === Infinity) throw 'failed on trip 2'
-	console.log('trip 2', bestTime2, bestTime2 - bestTime1)
 	stateCache.length = 0
 	const bestTime3 = takeStep(
 		{ ...options, best: Infinity, maxMins: bestTime2 + maxMins },
@@ -169,7 +162,6 @@ const part2 = (rawInput: string) => {
 		bestTime2 + 1
 	)
 	if (bestTime3 === Infinity) throw 'failed on trip 3'
-	console.log('trip 3', bestTime3, bestTime3 - bestTime2)
 	return bestTime3.toString()
 }
 
