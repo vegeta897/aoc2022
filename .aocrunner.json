@@ -379,10 +379,10 @@
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "20-==01-2-=1-2---1-0",
         "attempts": [],
-        "time": null
+        "time": 0.8419
       },
       "part2": {
         "solved": false,
